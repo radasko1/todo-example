@@ -1,0 +1,18 @@
+<p-table [value]="todoList" selectionMode="single" [(selection)]="selectedRow">
+	<ng-template pTemplate="header">
+		<tr>
+			<th>User</th>
+			<th>Task number</th>
+			<th>Task</th>
+			<th>Status</th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-todo>
+		<tr [pSelectableRow]="todo">
+			<td>{{ todo.user }}</td>
+			<td>{{ todo.id }}</td>
+			<td>{{ todo.title }}</td>
+			<td>{{ todo.completed }}</td>
+		</tr>
+	</ng-template>
+</p-table>
