@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 import { Todo } from '../models/todo.interface';
 import { environment } from '../../../../environments/environment';
@@ -17,6 +17,8 @@ export class TodoService {
 	 * Incoming data are transformed into desired form, where:
 	 * - user with 'id' 1 is shown as 'admin'
 	 * - user with 'id' 2 is shown as 'tester'
+   *
+   * In case when something happen, method return empty array.
 	 *
 	 * @returns Collection of Task/Todo objects
 	 */
@@ -33,7 +35,8 @@ export class TodoService {
 					}
 					return todo;
 				})
-			)
+			),
+			catchError(() => of([]))
 		);
 	}
 }

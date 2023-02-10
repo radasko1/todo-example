@@ -1,10 +1,20 @@
-<p-table [value]="todoList" selectionMode="single" [(selection)]="selectedRow">
+<!-- Table -->
+<p-table
+	[value]="todoList"
+	selectionMode="single"
+	[paginator]="true"
+	[rows]="paginatorRows"
+	[showCurrentPageReport]="true"
+	[(first)]="paginatorFirst"
+	currentPageReportTemplate="Záznam {first} - {last} z {totalRecords}"
+>
 	<ng-template pTemplate="header">
 		<tr>
-			<th>User</th>
-			<th>Task number</th>
-			<th>Task</th>
-			<th>Status</th>
+			<th>Uživatel</th>
+			<th>ID</th>
+			<th>Zadání</th>
+			<th>Splněno</th>
+			<th></th>
 		</tr>
 	</ng-template>
 	<ng-template pTemplate="body" let-todo>
@@ -12,7 +22,89 @@
 			<td>{{ todo.user }}</td>
 			<td>{{ todo.id }}</td>
 			<td>{{ todo.title }}</td>
-			<td>{{ todo.completed }}</td>
+			<td>
+				<ng-container
+					*ngIf="
+						todo.completed;
+						then todoComplete;
+						else todoNotComplete
+					"
+				></ng-container>
+			</td>
+			<td>
+				<button
+					pButton
+					icon="pi pi-pencil"
+					class="p-button-rounded p-button-info mr-2"
+					(click)="editTodo(todo)"
+				></button>
+				<button
+					pButton
+					icon="pi pi-trash"
+					class="p-button-rounded p-button-danger"
+					(click)="deleteTodo(todo)"
+				></button>
+			</td>
 		</tr>
 	</ng-template>
 </p-table>
+
+<!-- Edit dialog -->
+<p-dialog [(visible)]="showEditDialog" [modal]="true">
+	<form [formGroup]="editForm">
+		<div class="field">
+			<label for="userId">ID uživatele</label>
+			<p-inputNumber id="userId" formControlName="userId"></p-inputNumber>
+		</div>
+		<div class="field">
+			<label for="id">ID úkolu</label>
+			<p-inputNumber id="id" formControlName="id"></p-inputNumber>
+		</div>
+		<div class="field">
+			<label for="title">Zadání</label>
+			<input
+				id="title"
+				type="text"
+				pInputText
+				formControlName="title"
+				required
+			/>
+		</div>
+		<div class="field">
+			<label for="completed">Splněno</label>
+			<p-checkbox
+				[binary]="true"
+				id="completed"
+				formControlName="completed"
+			></p-checkbox>
+		</div>
+		<button
+			pButton
+			pRipple
+			label="Zrušit"
+			icon="pi pi-times"
+			class="p-button-text"
+			(click)="showEditDialog = false"
+		></button>
+		<button
+			pButton
+			pRipple
+			label="Uložit"
+			icon="pi pi-check"
+			class="p-button-text"
+			(click)="saveTodo()"
+		></button>
+	</form>
+</p-dialog>
+
+<!-- Confirmation dialog -->
+<p-confirmDialog></p-confirmDialog>
+
+<!-- Template for Table 'status' field -->
+<ng-template #todoComplete>
+	<i class="pi pi-check"></i>
+</ng-template>
+
+<ng-template #todoNotComplete>
+	<i class="pi pi-times"></i>
+</ng-template>
