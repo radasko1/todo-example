@@ -11,9 +11,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
-import { TodoComponent } from './todo/components/todo/todo.component';
-import { TodoService } from './todo/services/todo.service';
-import { UserRolePipe } from './todo/pipes/user-role.pipe';
+import { TodoComponent } from './components/todo/todo.component';
+import { TodoService } from './services/todo.service';
+import { UserRolePipe } from './pipes/user-role.pipe';
 
 @NgModule({
 	declarations: [TodoComponent, UserRolePipe],
