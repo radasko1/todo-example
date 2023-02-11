@@ -1,3 +1,12 @@
+<button
+  pButton
+  pRipple
+  [label]="locale.New"
+  icon="pi pi-plus"
+  class="p-button-success"
+  (click)="showTodoForm = true"
+></button>
+
 <!-- Table -->
 <p-table
 	[value]="todoList"
@@ -51,7 +60,7 @@
 
 <!-- Edit dialog -->
 <p-dialog
-	[(visible)]="showEditDialog"
+	[(visible)]="showTodoForm"
 	[modal]="true"
 	[header]="locale.DialogHeader"
 	styleClass="p-fluid"
@@ -88,13 +97,14 @@
 			[label]="locale.Cancel"
 			icon="pi pi-times"
 			class="p-button-secondary"
-			(click)="showEditDialog = false"
+			(click)="cancel()"
 		></button>
 		<button
 			pButton
 			pRipple
 			[label]="locale.Save"
 			icon="pi pi-check"
+      class="p-button-success"
 			(click)="saveTodo()"
 		></button>
 	</ng-template>

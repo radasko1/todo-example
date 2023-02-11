@@ -15,16 +15,16 @@ import locale from '../../todo.localization.json';
 export class TodoComponent implements OnInit {
 	/** List of Todo objects */
 	protected todoList: Todo[] = [];
-  /** Edited Todo object */
-  private editedTodo?: Todo;
+	/** Edited Todo object. When property is 'undefined' it means user switch to creation mode. */
+	private editedTodo: Todo | undefined;
 
 	/** Number of rows per one page in table */
 	protected paginatorRows = 10;
 	protected paginatorFirst = 0;
 
-	/** Flag to show Todo object dialog form */
-	protected showEditDialog = false;
-	/** Todo objects editing form */
+	/** Flag to show dialog form to create or update Todo object */
+	protected showTodoForm = false;
+	/** Form data to create/update Todo object */
 	protected editForm = this.fb.group({
 		userId: new FormControl<number>(0, { nonNullable: true }),
 		id: new FormControl<number>(0, { nonNullable: true }),
@@ -32,7 +32,7 @@ export class TodoComponent implements OnInit {
 		completed: new FormControl<boolean>(false, { nonNullable: true }),
 	});
 
-	/** Localization assignment for template usage */
+	/** Localization texts declaration to be accessed in template */
 	protected locale = locale;
 
 	constructor(
@@ -54,28 +54,33 @@ export class TodoComponent implements OnInit {
 	 * @param todo Edited Todo object
 	 */
 	protected editTodo(todo: Todo): void {
-    this.editedTodo = todo;
+		this.editedTodo = todo;
 		this.editForm.patchValue(todo);
-		this.showEditDialog = true;
+		this.showTodoForm = true;
 	}
 
 	/**
 	 * Save edited Todo object with new values
 	 */
 	protected saveTodo(): void {
-    if (!this.editedTodo) {
-      return;
-    }
+    // created/updated Todo object
+		const todoObject = this.editForm.getRawValue();
 
-		const updatedTodo = this.editForm.getRawValue();
+		if (this.editedTodo) {
+      // whether is Todo object in 'editedTodo' property, update Todos collection
+			this.todoList = this.todoList.map((todo) =>
+				todo.id === this.editedTodo?.id ? todoObject : todo
+			);
+		} else {
+      // otherwise add new Todo object inside Todos collection
+			this.todoList = [...this.todoList, todoObject];
+		}
 
-		this.todoList = this.todoList.map((todo) =>
-      todo.id === this.editedTodo?.id ? updatedTodo : todo
-		);
+		// place to call post/patch/put method from service
 
-		// place to call patch/put method from service
-
-		this.showEditDialog = false;
+		this.showTodoForm = false;
+    this.editedTodo = undefined;
+    this.editForm.reset();
 	}
 
 	/**
@@ -98,4 +103,13 @@ export class TodoComponent implements OnInit {
 			},
 		});
 	}
+
+  /**
+   * Cancel update/create action in dialog form.
+   */
+  protected cancel(): void {
+    this.showTodoForm = false;
+    this.editedTodo = undefined;
+    this.editForm.reset();
+  }
 }
