@@ -9,12 +9,14 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import { TodoComponent } from './todo/components/todo/todo.component';
 import { TodoService } from './todo/services/todo.service';
+import { UserRolePipe } from './todo/pipes/user-role.pipe';
 
 @NgModule({
-	declarations: [TodoComponent],
+	declarations: [TodoComponent, UserRolePipe],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -25,8 +27,9 @@ import { TodoService } from './todo/services/todo.service';
 		InputTextModule,
 		CheckboxModule,
 		InputNumberModule,
+		InputTextareaModule,
 	],
-	providers: [ConfirmationService, TodoService], // TODO do I need confirmation service?
+	providers: [ConfirmationService, TodoService],
 	exports: [TodoComponent],
 })
 export class TodoModule {}

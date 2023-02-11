@@ -4,6 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 
 import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../models/todo.interface';
+import locale from '../../todo.localization.json';
 
 @Component({
 	selector: 'app-todo',
@@ -14,6 +15,8 @@ import { Todo } from '../../models/todo.interface';
 export class TodoComponent implements OnInit {
 	/** List of Todo objects */
 	protected todoList: Todo[] = [];
+  /** Edited Todo object */
+  private editedTodo?: Todo;
 
 	/** Number of rows per one page in table */
 	protected paginatorRows = 10;
@@ -24,11 +27,13 @@ export class TodoComponent implements OnInit {
 	/** Todo objects editing form */
 	protected editForm = this.fb.group({
 		userId: new FormControl<number>(0, { nonNullable: true }),
-		user: new FormControl<string>('', { nonNullable: true }),
 		id: new FormControl<number>(0, { nonNullable: true }),
 		title: new FormControl<string>('', { nonNullable: true }),
 		completed: new FormControl<boolean>(false, { nonNullable: true }),
 	});
+
+	/** Localization assignment for template usage */
+	protected locale = locale;
 
 	constructor(
 		private fb: FormBuilder,
@@ -49,6 +54,7 @@ export class TodoComponent implements OnInit {
 	 * @param todo Edited Todo object
 	 */
 	protected editTodo(todo: Todo): void {
+    this.editedTodo = todo;
 		this.editForm.patchValue(todo);
 		this.showEditDialog = true;
 	}
@@ -57,13 +63,17 @@ export class TodoComponent implements OnInit {
 	 * Save edited Todo object with new values
 	 */
 	protected saveTodo(): void {
-		const editFormValue = this.editForm.getRawValue();
+    if (!this.editedTodo) {
+      return;
+    }
+
+		const updatedTodo = this.editForm.getRawValue();
 
 		this.todoList = this.todoList.map((todo) =>
-			todo.id === editFormValue.id ? editFormValue : todo
+      todo.id === this.editedTodo?.id ? updatedTodo : todo
 		);
 
-    // place to call patch/put method from service
+		// place to call patch/put method from service
 
 		this.showEditDialog = false;
 	}
@@ -74,10 +84,12 @@ export class TodoComponent implements OnInit {
 	 */
 	protected deleteTodo(todo: Todo): void {
 		this.confirmationService.confirm({
-			message: 'Opravdu chcete smazat záznam?',
-			header: 'Smazat',
-			acceptLabel: 'Smazat',
-			rejectLabel: 'Zrušit',
+			message: locale.DeleteConfirmationText,
+			header: locale.DeleteConfirmationHeader,
+			acceptLabel: locale.Delete,
+			acceptButtonStyleClass: 'p-button-danger',
+			rejectLabel: locale.Cancel,
+			rejectButtonStyleClass: 'p-button-secondary',
 			accept: () => {
 				this.todoList = this.todoList.filter(
 					(todoItem) => todoItem.id !== todo.id

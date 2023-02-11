@@ -1,0 +1,15 @@
+{
+	"AdminRole": "admin",
+	"TesterRole": "tester",
+	"UserRole": "neznámý uživatel",
+	"DeleteConfirmationText": "Opravdu chcete smazat záznam?",
+  "DeleteConfirmationHeader": "Smazat",
+  "Save": "Uložit",
+  "Delete": "Smazat",
+  "Cancel": "Zrušit",
+  "DialogHeader": "Upravení úkolu",
+  "TableColumnUser": "Uživatel",
+  "TableColumnID": "ID úkolu",
+  "TableColumnTodo": "Zadání",
+  "TableColumnCompleted": "Splněno"
+}

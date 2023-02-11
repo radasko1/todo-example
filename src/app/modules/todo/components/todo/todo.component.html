@@ -10,16 +10,16 @@
 >
 	<ng-template pTemplate="header">
 		<tr>
-			<th>Uživatel</th>
-			<th>ID</th>
-			<th>Zadání</th>
-			<th>Splněno</th>
+			<th>{{ locale.TableColumnUser }}</th>
+			<th>{{ locale.TableColumnID }}</th>
+			<th>{{ locale.TableColumnTodo }}</th>
+			<th>{{ locale.TableColumnCompleted }}</th>
 			<th></th>
 		</tr>
 	</ng-template>
 	<ng-template pTemplate="body" let-todo>
 		<tr [pSelectableRow]="todo">
-			<td>{{ todo.user }}</td>
+			<td>{{ todo.userId | userRole }}</td>
 			<td>{{ todo.id }}</td>
 			<td>{{ todo.title }}</td>
 			<td>
@@ -50,51 +50,54 @@
 </p-table>
 
 <!-- Edit dialog -->
-<p-dialog [(visible)]="showEditDialog" [modal]="true">
+<p-dialog
+	[(visible)]="showEditDialog"
+	[modal]="true"
+	[header]="locale.DialogHeader"
+	styleClass="p-fluid"
+>
 	<form [formGroup]="editForm">
 		<div class="field">
-			<label for="userId">ID uživatele</label>
+			<label for="userId">{{ locale.TableColumnUser }}</label>
 			<p-inputNumber id="userId" formControlName="userId"></p-inputNumber>
 		</div>
 		<div class="field">
-			<label for="id">ID úkolu</label>
+			<label for="id">{{ locale.TableColumnID }}</label>
 			<p-inputNumber id="id" formControlName="id"></p-inputNumber>
 		</div>
 		<div class="field">
-			<label for="title">Zadání</label>
-			<input
+			<label for="title">{{ locale.TableColumnTodo }}</label>
+			<textarea
+				pInputTextarea
 				id="title"
-				type="text"
-				pInputText
 				formControlName="title"
-				required
-			/>
+			></textarea>
 		</div>
 		<div class="field">
-			<label for="completed">Splněno</label>
 			<p-checkbox
 				[binary]="true"
-				id="completed"
 				formControlName="completed"
+				[label]="locale.TableColumnCompleted"
 			></p-checkbox>
 		</div>
+	</form>
+	<ng-template pTemplate="footer">
 		<button
 			pButton
 			pRipple
-			label="Zrušit"
+			[label]="locale.Cancel"
 			icon="pi pi-times"
-			class="p-button-text"
+			class="p-button-secondary"
 			(click)="showEditDialog = false"
 		></button>
 		<button
 			pButton
 			pRipple
-			label="Uložit"
+			[label]="locale.Save"
 			icon="pi pi-check"
-			class="p-button-text"
 			(click)="saveTodo()"
 		></button>
-	</form>
+	</ng-template>
 </p-dialog>
 
 <!-- Confirmation dialog -->
