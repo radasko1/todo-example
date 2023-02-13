@@ -20,7 +20,7 @@ export class TodoService {
 	 */
 	public getTodos(): Observable<Todo[]> {
 		return this.httpClient
-			.get<Todo[]>(this.url)
+			.get<Todo[]>(`${this.url}/todos`)
 			.pipe(catchError(() => of([])));
 	}
 }

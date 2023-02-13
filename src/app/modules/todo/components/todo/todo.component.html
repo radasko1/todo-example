@@ -1,10 +1,10 @@
 <button
-  pButton
-  pRipple
-  [label]="locale.New"
-  icon="pi pi-plus"
-  class="p-button-success"
-  (click)="showTodoForm = true"
+	pButton
+	pRipple
+	[label]="locale.New"
+	icon="pi pi-plus"
+	class="p-button-success"
+	(click)="showTodoForm = true"
 ></button>
 
 <!-- Table -->
@@ -32,13 +32,10 @@
 			<td>{{ todo.id }}</td>
 			<td>{{ todo.title }}</td>
 			<td>
-				<ng-container
-					*ngIf="
-						todo.completed;
-						then todoComplete;
-						else todoNotComplete
-					"
-				></ng-container>
+				<i
+					class="pi"
+					[ngClass]="todo.completed ? 'pi-check' : 'pi-times'"
+				></i>
 			</td>
 			<td>
 				<button
@@ -104,7 +101,7 @@
 			pRipple
 			[label]="locale.Save"
 			icon="pi pi-check"
-      class="p-button-success"
+			class="p-button-success"
 			(click)="saveTodo()"
 		></button>
 	</ng-template>
@@ -112,12 +109,3 @@
 
 <!-- Confirmation dialog -->
 <p-confirmDialog></p-confirmDialog>
-
-<!-- Template for Table 'status' field -->
-<ng-template #todoComplete>
-	<i class="pi pi-check"></i>
-</ng-template>
-
-<ng-template #todoNotComplete>
-	<i class="pi pi-times"></i>
-</ng-template>
