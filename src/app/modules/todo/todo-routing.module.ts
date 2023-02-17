@@ -12,7 +12,6 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [RouterModule.forChild(routes)],
-	exports: [],
-	declarations: [],
+	exports: [RouterModule],
 })
 export class TodoRoutingModule {}

@@ -16,7 +16,10 @@ import { TodoService } from './services/todo.service';
 import { UserRolePipe } from './pipes/user-role.pipe';
 
 @NgModule({
-	declarations: [TodoComponent, UserRolePipe],
+	declarations: [
+		TodoComponent,
+		UserRolePipe,
+	],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -30,6 +33,5 @@ import { UserRolePipe } from './pipes/user-role.pipe';
 		InputTextareaModule,
 	],
 	providers: [ConfirmationService, TodoService],
-	exports: [TodoComponent],
 })
 export class TodoModule {}

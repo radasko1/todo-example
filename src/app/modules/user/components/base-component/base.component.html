@@ -1,0 +1,28 @@
+<p-card
+	[header]="headerTitle"
+	[subheader]="subheaderTitle"
+	[style]="{ width: cardWidth }"
+	styleClass="p-card-shadow"
+>
+	<ng-template pTemplate="header">
+		<img
+			alt="Card"
+			[src]="imageSrc"
+		/>
+	</ng-template>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
+		consequuntur error repudiandae numquam deserunt quisquam repellat libero
+		asperiores earum nam nobis, culpa ratione quam perferendis esse,
+		cupiditate neque quas!
+	</p>
+	<ng-template pTemplate="footer">
+		<p-button [label]="primaryButtonLabel" icon="pi pi-check"></p-button>
+		<p-button
+			[label]="secondaryButtonLabel"
+			icon="pi pi-times"
+			styleClass="p-button-secondary"
+			[style]="{ 'margin-left': '0.5em' }"
+		></p-button>
+	</ng-template>
+</p-card>
